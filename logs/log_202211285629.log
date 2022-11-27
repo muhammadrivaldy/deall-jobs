@@ -1,0 +1,10 @@
+{"level":"info","ts":"2022-11-28T05:56:30.077+0700","caller":"app/main.go:81","msg":"Success Load Configuration","request-id":"","method":"","endpoint":""}
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /nominatim/*filepath      --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] HEAD   /nominatim/*filepath      --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] GET    /api/v1/health            --> backend/handler/health/delivery/http.(*endpoint).Health-fm (5 handlers)
+{"level":"info","ts":"2022-11-28T05:56:30.090+0700","caller":"app/main.go:102","msg":"Service Started!","request-id":"","method":"","endpoint":""}
+[GIN-debug] Listening and serving HTTP on :8081
