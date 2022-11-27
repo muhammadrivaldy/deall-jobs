@@ -2,13 +2,8 @@ package config
 
 // Configuration is a object configuration
 type Configuration struct {
-	Port    int    `json:"port" env:"PORT"`
-	JWTKey  string `json:"jwt-key" env:"JWT_KEY"`
-	URLUmkm struct {
-		BaseURL               string `json:"base_url" env:"BASE_URL"`
-		ConfirmRegister       string `json:"confirm_register" env:"CONFIRM_REGISTER_URL"`
-		ConfirmForgotPassword string `json:"confirm_forgot_password" env:"CONFIRM_FORGOT_PASSWORD_URL"`
-	} `json:"url_umkm"`
+	Port     int    `json:"port" env:"PORT"`
+	JWTKey   string `json:"jwt-key" env:"JWT_KEY"`
 	Database struct {
 		Address    string `json:"address" env:"DB_ADDRESS"`
 		User       string `json:"user" env:"DB_USER"`
