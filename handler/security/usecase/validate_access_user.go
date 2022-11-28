@@ -5,25 +5,29 @@ import (
 	"backend/util"
 	"context"
 
+	goutil "github.com/muhammadrivaldy/go-util"
 	"gorm.io/gorm"
 )
 
-func (u useCase) ValidateAccessUser(ctx context.Context, apiID int, userTypeID int) (bool, error) {
+func (u useCase) ValidateAccessUser(ctx context.Context, apiID int) (res bool, errs util.Error) {
+
+	userInfo := goutil.GetContext(ctx)
 
 	// prepare a filter
 	filter := util.FilterQuery{}
 	filter.Conditions = append(filter.Conditions, util.Condition{Field: "api_id", Operation: "=", Value: apiID})
 	filter.Conditions = append(filter.Conditions, util.Condition{Operation: "and"})
-	filter.Conditions = append(filter.Conditions, util.Condition{Field: "user_type_id", Operation: "=", Value: userTypeID})
+	filter.Conditions = append(filter.Conditions, util.Condition{Field: "user_type_id", Operation: "=", Value: userInfo.GroupID})
 
 	// check access of user
 	_, err := u.securityEntity.AccessRepo.SelectAccessByFilter(filter)
 	if err == gorm.ErrRecordNotFound {
-		return false, nil
+		logs.Logging.Error(ctx, err)
+		return false, util.ErrorMapping(err)
 	} else if err != nil {
 		logs.Logging.Error(ctx, err)
-		return false, err
+		return false, util.ErrorMapping(err)
 	}
 
-	return true, nil
+	return true, util.Error{}
 }

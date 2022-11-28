@@ -1,6 +1,8 @@
 package http
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	goutil "github.com/muhammadrivaldy/go-util"
 )
@@ -19,5 +21,5 @@ func (e *endpoint) Health(c *gin.Context) {
 		return
 	}
 
-	goutil.ResponseOK(c, nil)
+	goutil.ResponseOK(c, http.StatusOK, nil)
 }

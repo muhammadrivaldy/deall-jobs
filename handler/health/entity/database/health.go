@@ -16,6 +16,6 @@ func NewHealthRepo(dbGorm *gorm.DB) health.IHealthRepo {
 }
 
 func (d *database) SelectTime() (res time.Time, err error) {
-	err = d.dbGorm.Raw(`select now()`).Scan(&res).Error
+	err = d.dbGorm.Raw("select now()").Scan(&res).Error
 	return
 }

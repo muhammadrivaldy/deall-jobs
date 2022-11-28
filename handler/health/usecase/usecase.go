@@ -14,9 +14,7 @@ type useCase struct {
 
 // NewUseCase is a function for override interface
 func NewUseCase(
-	logs goutil.Logs,
 	healthEntity healthEntity.HealthEntity) health.IHealthUseCase {
 	return &useCase{
-		logs:         logs,
 		healthEntity: healthEntity}
 }

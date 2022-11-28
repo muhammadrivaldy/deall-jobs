@@ -25,7 +25,7 @@ func NewSecurityEntity(conf config.Configuration) (SecurityEntity, error) {
 		conf.Database.User,
 		conf.Database.Password,
 		conf.Database.Address,
-		conf.Database.Schema.Security,
+		conf.Database.Schema.Security.Database,
 		strings.Split(conf.Database.Parameters, ","))
 	if err != nil {
 		return SecurityEntity{}, err
@@ -37,13 +37,14 @@ func NewSecurityEntity(conf config.Configuration) (SecurityEntity, error) {
 	}
 
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://./handler/security/entity/database/migrations",
-		conf.Database.Schema.Security,
+		conf.Database.Schema.Security.MigrationPath,
+		conf.Database.Schema.Security.Database,
 		driver)
 	if err != nil {
 		return SecurityEntity{}, err
 	}
 
+	// do a migration up
 	m.Up()
 
 	dbGorm, err := goutil.NewGorm(clientMysql, "mysql", goutil.LoggerSilent)

@@ -26,12 +26,12 @@ func (a api) SelectApiByName(name string) (res models.Api, err error) {
 	return
 }
 
-func (a api) SelectApiByEndpoint(endpoint string) (res models.Api, err error) {
-	err = a.dbGorm.Where("endpoint = ?", endpoint).First(&res).Error
+func (a api) SelectApiByEndpoint(endpoint, method string) (res models.Api, err error) {
+	err = a.dbGorm.Where("endpoint = ? and method = ?", endpoint, method).First(&res).Error
 	return
 }
 
 func (a api) UpdateApi(req models.Api) (res models.Api, err error) {
-	err = a.dbGorm.Model(&models.Api{}).Where(`id = ?`, req.ID).Updates(req).First(&res).Error
+	err = a.dbGorm.Model(&models.Api{}).Where("id = ?", req.ID).Updates(req).First(&res).Error
 	return
 }

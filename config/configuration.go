@@ -10,7 +10,14 @@ type Configuration struct {
 		Password   string `json:"password" env:"DB_PASSWORD"`
 		Parameters string `json:"parameters" env:"DB_PARAMETERS"`
 		Schema     struct {
-			Security string `json:"security" env:"DB_SCHEMA_SECURITY"`
+			Security struct {
+				Database      string `json:"database" env:"DB_SCHEMA_SECURITY"`
+				MigrationPath string `json:"migration_path" env:"DB_MIGRATION_PATH_SECURITY"`
+			} `json:"security"`
+			User struct {
+				Database      string `json:"database" env:"DB_SCHEMA_USER"`
+				MigrationPath string `json:"migration_path" env:"DB_MIGRATION_PATH_USER"`
+			} `json:"user"`
 		} `json:"schema"`
 	} `json:"database"`
 	EmailSystem struct {

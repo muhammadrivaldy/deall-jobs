@@ -32,7 +32,7 @@ func main() {
 	// logging
 	var osLog *os.File
 	defer osLog.Close()
-	osLog, err = goutil.OpenFile("./logs", filenameLog())
+	osLog, err = goutil.OpenFile("../logs", filenameLog())
 	if err != nil {
 		panic(err)
 	}
@@ -43,7 +43,7 @@ func main() {
 	// cron for create a log file every day
 	c := cron.New()
 	c.AddFunc("@midnight", func() {
-		osLogNewest, err := goutil.OpenFileNewest(osLog, "./logs", filenameLog())
+		osLogNewest, err := goutil.OpenFileNewest(osLog, "../logs", filenameLog())
 		if err != nil {
 			return
 		}
@@ -68,10 +68,7 @@ func main() {
 	}
 
 	// third-party telegram
-	telegram, err := goutil.NewTele(config.ThirdParty.Telegram.Token, config.ThirdParty.Telegram.ChatID)
-	if err != nil {
-		panic(err)
-	}
+	telegram, _ := goutil.NewTele(config.ThirdParty.Telegram.Token, config.ThirdParty.Telegram.ChatID)
 
 	// logs service
 	logs.Logging = goutil.NewLog(osLog, telegram)

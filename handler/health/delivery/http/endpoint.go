@@ -31,7 +31,7 @@ func NewEndpoint(
 		validation:      validation}
 
 	// register the service
-	serviceID, err := useCaseSecurity.RegisterService(context.TODO(), "Security")
+	serviceID, err := useCaseSecurity.RegisterService(context.TODO(), "Health")
 	if err.Error != nil {
 		return err.Error
 	}

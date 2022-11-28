@@ -13,13 +13,13 @@ type HealthEntity struct {
 	HealthRepo health.IHealthRepo
 }
 
-func NewEntity(conf config.Configuration) (HealthEntity, error) {
+func NewHealthEntity(conf config.Configuration) (HealthEntity, error) {
 
 	clientMysql, err := goutil.NewMySQL(
 		conf.Database.User,
 		conf.Database.Password,
 		conf.Database.Address,
-		conf.Database.Schema.Security,
+		conf.Database.Schema.Security.Database,
 		strings.Split(conf.Database.Parameters, ","))
 	if err != nil {
 		return HealthEntity{}, err

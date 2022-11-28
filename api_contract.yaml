@@ -1,0 +1,314 @@
+openapi: "3.0.2"
+info:
+  title: Deall Jobs
+  version: "1.0"
+  description: ""
+servers:
+  - url: http://localhost:8080/api/v1
+security:
+  - bearerAuth: []
+paths:
+  /user:
+    post:
+      description: ""
+      tags:
+        - User
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Rivaldy
+                phone:
+                  type: string
+                  example: 087784511234
+                email:
+                  type: string
+                  example: muhammadrivaldy@example.com
+                password:
+                  type: string
+                  example: YourPassword
+                user_type_id:
+                  type: integer
+                  example: 1
+              required:
+                - name
+                - phone
+                - email
+                - password
+                - user_type_id
+      responses:
+        "201":
+          $ref: "#/components/responses/responseSuccessCreated"
+        "400":
+          $ref: "#/components/responses/responseErrorBadRequest"
+        "500":
+          $ref: "#/components/responses/responseErrorSystem"
+  /user/{user_id}:
+    get:
+      description: ""
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 15468
+                  name:
+                    type: string
+                    example: Rivaldy
+                  phone:
+                    type: string
+                    example: 087784511234
+                  email:
+                    type: string
+                    example: muhammadrivaldy@example.com
+                  status:
+                    type: integer
+                    example: 1
+                  user_type_id:
+                    type: integer
+                    example: 2
+                  created_by:
+                    type: integer
+                    example: 15468
+                  created_at:
+                    type: string
+                    example: "2022-11-06"
+                  updated_by:
+                    type: integer
+                    example: 15468
+                  updated_at:
+                    type: string
+                    example: "2022-11-06"
+        "404":
+          $ref: "#/components/responses/responseErrorDataNotFound"
+        "500":
+          $ref: "#/components/responses/responseErrorSystem"
+    put:
+      description: ""
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/responseSuccessOk"
+        "404":
+          $ref: "#/components/responses/responseErrorDataNotFound"
+        "500":
+          $ref: "#/components/responses/responseErrorSystem"
+    delete:
+      description: ""
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/responseSuccessOk"
+        "404":
+          $ref: "#/components/responses/responseErrorDataNotFound"
+        "500":
+          $ref: "#/components/responses/responseErrorSystem"
+  /user/{user_id}/password:
+    put:
+      description: ""
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/responseSuccessOk"
+        "404":
+          $ref: "#/components/responses/responseErrorDataNotFound"
+        "500":
+          $ref: "#/components/responses/responseErrorSystem"
+  /security/login:
+    post:
+      description: ""
+      tags:
+        - Security
+      security:
+        - basicAuth: []
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Success
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: this-is-token
+                      refresh_token:
+                        type: string
+                        example: this-is-token
+        "404":
+          $ref: "#/components/responses/responseErrorDataNotFound"
+        "500":
+          $ref: "#/components/responses/responseErrorSystem"
+  /security/refresh:
+    post:
+      description: ""
+      tags:
+        - Security
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Success
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: this-is-token
+                      refresh_token:
+                        type: string
+                        example: this-is-token
+        "404":
+          $ref: "#/components/responses/responseErrorDataNotFound"
+        "500":
+          $ref: "#/components/responses/responseErrorSystem"
+components:
+  parameters:
+    language:
+      in: header
+      description: You can put `id` or `en`
+      name: accept-language
+      schema:
+        type: string
+        example: en
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    bearerAuth:
+      type: http
+      scheme: bearer
+  responses:
+    responseSuccessOk:
+      description: "Ok"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success
+              data:
+                type: object
+                example: null
+    responseSuccessCreated:
+      description: "Created"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 201
+              message:
+                type: string
+                example: Success
+              data:
+                type: object
+                example: null
+    responseErrorBadRequest:
+      description: "Data not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: Bad request
+              data:
+                example: null
+    responseErrorDataNotFound:
+      description: "Data not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 404
+              message:
+                type: string
+                example: data not found
+              data:
+                example: null
+    responseErrorSystem:
+      description: "Unexpected error"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: something when wrong
+              data:
+                example: null

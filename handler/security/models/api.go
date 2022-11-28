@@ -14,6 +14,6 @@ type Api struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
 }
 
-func (Api) TableName() string {
+func (a *Api) TableName() string {
 	return "mst_api"
 }

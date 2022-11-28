@@ -11,6 +11,6 @@ type Service struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
 }
 
-func (Service) TableName() string {
+func (s *Service) TableName() string {
 	return "mst_service"
 }

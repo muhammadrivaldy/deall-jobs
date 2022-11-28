@@ -10,6 +10,6 @@ type Access struct {
 	UpdatedAt  time.Time `gorm:"column:updated_at"`
 }
 
-func (Access) TableName() string {
+func (a *Access) TableName() string {
 	return "mst_access"
 }

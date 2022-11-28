@@ -21,7 +21,7 @@ func (u *useCase) RegisterApi(ctx context.Context, req *payload.RegisterApiReque
 
 	// get info api by endpoint
 	if resApi.ID == 0 {
-		resApi, err = u.securityEntity.ApiRepo.SelectApiByEndpoint(req.Endpoint)
+		resApi, err = u.securityEntity.ApiRepo.SelectApiByEndpoint(req.Endpoint, req.Method)
 		if err != nil && err != gorm.ErrRecordNotFound {
 			logs.Logging.Error(ctx, err)
 			return

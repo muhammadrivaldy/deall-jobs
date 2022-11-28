@@ -3,11 +3,12 @@ module backend
 go 1.17
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/requestid v0.0.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/golang-migrate/migrate v3.5.4+incompatible
-	github.com/muhammadrivaldy/go-util v0.3.6
+	github.com/muhammadrivaldy/go-util v0.3.12
 	github.com/robfig/cron/v3 v3.0.1
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
 	gorm.io/gorm v1.21.16
@@ -15,7 +16,6 @@ require (
 
 require (
 	github.com/containerd/containerd v1.5.7 // indirect
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/docker/distribution v2.7.1+incompatible // indirect
 	github.com/docker/docker v20.10.10+incompatible // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
