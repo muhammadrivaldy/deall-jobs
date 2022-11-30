@@ -110,6 +110,24 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Steven
+                phone:
+                  type: string
+                  example: 081325460580
+                email:
+                  type: string
+                  example: sepeda@gmail.com
+                user_type_id:
+                  type: integer
+                  example: 1
       responses:
         "200":
           $ref: "#/components/responses/responseSuccessOk"
@@ -145,6 +163,15 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: YourPassword
       responses:
         "200":
           $ref: "#/components/responses/responseSuccessOk"

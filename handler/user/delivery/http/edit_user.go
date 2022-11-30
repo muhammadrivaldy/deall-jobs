@@ -12,14 +12,13 @@ import (
 
 func (e *endpoint) EditUser(c *gin.Context) {
 
-	var err error
-	var payload payload.RequestEditUser
-
-	payload.ID, err = strconv.ParseInt(c.Query("user_id"), 10, 64)
+	userID, err := strconv.ParseInt(c.Query("user_id"), 10, 64)
 	if err != nil {
 		goutil.ResponseError(c, http.StatusInternalServerError, err, nil)
 		return
 	}
+
+	payload := payload.RequestEditUser{ID: userID}
 
 	if err := c.BindJSON(&payload); err != nil {
 		goutil.ResponseError(c, http.StatusBadRequest, errors.New(http.StatusText(http.StatusBadRequest)), nil)

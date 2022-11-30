@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (u useCase) ValidateAccessUser(ctx context.Context, apiID int) (res bool, errs util.Error) {
+func (u useCase) ValidateAccessUser(ctx context.Context, apiID int64) (res bool, errs util.Error) {
 
 	userInfo := goutil.GetContext(ctx)
 

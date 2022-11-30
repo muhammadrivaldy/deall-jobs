@@ -1,0 +1,3 @@
+FROM swaggerapi/swagger-ui
+
+COPY ./api_contract.yaml /var/share/api_contract.yaml

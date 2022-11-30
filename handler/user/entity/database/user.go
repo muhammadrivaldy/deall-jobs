@@ -3,17 +3,23 @@ package database
 import (
 	IUser "backend/handler/user"
 	"backend/handler/user/models"
+	"context"
+	"encoding/json"
+	"fmt"
+	"time"
 
+	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
 type user struct {
 	dbGorm *gorm.DB
+	redis  *redis.Client
 }
 
-func NewUserRepo(dbGorm *gorm.DB) IUser.IUserRepo {
-	return user{dbGorm: dbGorm}
+func NewUserRepo(dbGorm *gorm.DB, redis *redis.Client) IUser.IUserRepo {
+	return user{dbGorm: dbGorm, redis: redis}
 }
 
 func (u user) InsertUser(req models.User) (res models.User, err error) {
@@ -22,7 +28,26 @@ func (u user) InsertUser(req models.User) (res models.User, err error) {
 }
 
 func (u user) SelectUserByID(id int64) (res models.User, err error) {
-	err = u.dbGorm.Where("id = ?", id).First(&res).Error
+
+	result, _ := u.redis.Get(context.Background(), fmt.Sprintf("user-id:%d", id)).Bytes()
+
+	if result == nil {
+
+		if err = u.dbGorm.Where("id = ?", id).First(&res).Error; err != nil {
+			return
+		}
+
+		result, _ = json.Marshal(res)
+
+		u.redis.Set(context.Background(), fmt.Sprintf("user-id:%d", id), result, 5*time.Minute)
+
+		return
+	}
+
+	if err = json.Unmarshal(result, &res); err != nil {
+		return
+	}
+
 	return
 }
 

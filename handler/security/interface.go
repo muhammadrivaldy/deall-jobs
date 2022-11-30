@@ -11,7 +11,7 @@ import (
 type ISecurityUseCase interface {
 	RegisterApi(ctx context.Context, req *payload.RegisterApiRequest)
 	RegisterService(ctx context.Context, serviceName string) (id int, errs util.Error)
-	ValidateAccessUser(ctx context.Context, apiID int) (res bool, errs util.Error)
+	ValidateAccessUser(ctx context.Context, apiID int64) (res bool, errs util.Error)
 	Login(ctx context.Context, email, password string) (token, refreshToken string, errs util.Error)
 	RefreshJWT(ctx context.Context) (token, refreshToken string, errs util.Error)
 }

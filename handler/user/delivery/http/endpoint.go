@@ -61,11 +61,11 @@ func NewEndpoint(
 	middleware := middleware.NewMiddleware(useCaseUser, useCaseSecurity)
 
 	// route the endpoint
-	engine.Handle(createUser.Method, createUser.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(int(createUser.ID)), edp.CreateUser)
-	engine.Handle(getUserByID.Method, getUserByID.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(int(getUserByID.ID)), edp.GetUserByID)
-	engine.Handle(editUser.Method, editUser.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(int(editUser.ID)), edp.EditUser)
-	engine.Handle(editPasswordUser.Method, editPasswordUser.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(int(editPasswordUser.ID)), edp.EditPasswordUser)
-	engine.Handle(removeUser.Method, removeUser.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(int(removeUser.ID)), edp.RemoveUser)
+	engine.Handle(createUser.Method, createUser.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(createUser.ID), edp.CreateUser)
+	engine.Handle(getUserByID.Method, getUserByID.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(getUserByID.ID), edp.GetUserByID)
+	engine.Handle(editUser.Method, editUser.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(editUser.ID), edp.EditUser)
+	engine.Handle(editPasswordUser.Method, editPasswordUser.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(editPasswordUser.ID), edp.EditPasswordUser)
+	engine.Handle(removeUser.Method, removeUser.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(removeUser.ID), edp.RemoveUser)
 
 	// send result
 	return nil

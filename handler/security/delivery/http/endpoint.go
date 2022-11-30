@@ -57,7 +57,7 @@ func NewEndpoint(
 
 	// route the endpoint
 	engine.Handle(login.Method, login.Endpoint, edp.Login)
-	engine.Handle(refreshJwt.Method, refreshJwt.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(int(refreshJwt.ID)), edp.RefreshJWT)
+	engine.Handle(refreshJwt.Method, refreshJwt.Endpoint, goutil.ParseJWT(config.JWTKey, jwt.SigningMethodHS256), middleware.ValidateAccess(refreshJwt.ID), edp.RefreshJWT)
 
 	// send result
 	return nil

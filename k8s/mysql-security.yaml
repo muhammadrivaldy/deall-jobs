@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-security
+spec:
+  selector:
+    matchLabels:
+      component: mysql-security
+  template:
+    metadata:
+      labels:
+        component: mysql-security
+    spec:
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: database-security-pvc
+      containers:
+        - name: mysql-security
+          image: mysql:5.7
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: "1"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          env:
+            - name: MYSQL_DATABASE
+              value: security
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASSWORD
+                  name: backend-secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-security-service
+spec:
+  type: ClusterIP
+  selector:
+    component: mysql-security
+  ports:
+    - port: 3306
+      targetPort: 3306

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swagger-ui
+spec:
+  selector:
+    matchLabels:
+      app: swagger-ui
+  template:
+    metadata:
+      labels:
+        app: swagger-ui
+    spec:
+      containers:
+        - name: swagger-ui
+          image: muhammadrivaldy05/swagger-ui
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: "1"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SWAGGER_JSON
+              value: /var/share/api_contract.yaml
+            - name: BASE_URL
+              value: /swagger
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: swagger-ui-service
+spec:
+  type: ClusterIP
+  selector:
+    app: swagger-ui
+  ports:
+  - port: 5051
+    targetPort: 8080

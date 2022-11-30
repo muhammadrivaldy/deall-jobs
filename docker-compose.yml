@@ -1,7 +1,7 @@
 version: "3.3"
 services:
-  db:
-    container_name: db-mysql
+  mysql-security:
+    container_name: mysql-security
     image: mysql:8.0-debian
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -9,19 +9,35 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: security
     volumes:
-      - mysql-dealljobs:/var/lib/mysql
+      - mysql-security:/var/lib/mysql
+    networks:
+      - server-side
+
+  mysql-user:
+    container_name: mysql-user
+    image: mysql:8.0-debian
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user
+    volumes:
+      - mysql-user:/var/lib/mysql
     networks:
       - server-side
 
   adminer:
-    container_name: db-adminer
+    container_name: adminer
     image: adminer:4.8.1-standalone
     restart: always
     depends_on:
-      - db
+      - mysql-security
     environment:
-      ADMINER_DEFAULT_SERVER: db
+      ADMINER_DEFAULT_SERVER: mysql-security
     ports:
       - 5050:8080
     networks:
@@ -29,7 +45,7 @@ services:
 
   dealljobs:
     container_name: deall-jobs
-    image: dealljobs:latest
+    image: muhammadrivaldy05/dealljobs:latest
     restart: always
     build:
       context: .
@@ -37,20 +53,23 @@ services:
     ports:
       - 8080:8080
     environment:
-      DB_ADDRESS: db
+      DB_ADDRESS_SECURITY: mysql-security
+      DB_ADDRESS_USER: mysql-user
       DB_USER: root
       DB_PASSWORD: root
+      REDIS_ADDRESS: redis
       PATH_CONF: ../config
       FILE_CONF: local.conf
     depends_on:
-      - db
+      - mysql-security
+      - mysql-user
       - adminer
       - redis
     networks:
       - server-side
 
   redis:
-    container_name: db-redis
+    container_name: redis
     image: redis:6.2.4
     restart: always
     ports:
@@ -59,10 +78,21 @@ services:
       - redis-dealljobs:/data
     networks:
       - server-side
+  
+  swagger-ui:
+    container_name: swagger-ui
+    image: muhammadrivaldy05/swagger-ui:latest
+    ports:
+      - 5051:8080
+    environment:
+      BASE_URL: /swagger
+      SWAGGER_JSON: /var/share/api_contract.yaml
 
 networks:
   server-side:
 
 volumes:
-  mysql-dealljobs:
+  mysql-security:
+  mysql-user:
   redis-dealljobs:
+  swagger-dealljobs:

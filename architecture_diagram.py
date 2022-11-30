@@ -2,7 +2,7 @@ from diagrams import Cluster, Diagram
 from diagrams.onprem.network import Nginx
 from diagrams.k8s.network import Service
 from diagrams.k8s.compute import Pod
-from diagrams.onprem.database import MongoDB
+from diagrams.onprem.database import MySQL
 from diagrams.onprem.inmemory import Redis
 
 with Diagram("architecture diagram", show=False):
@@ -17,9 +17,12 @@ with Diagram("architecture diagram", show=False):
         Pod("backend3")
     ]
 
-    serviceDB = Service("service")
     
-    mongoDB = MongoDB("mongoDB")
+    serviceDBSecurity = Service("service")
+    mysqlDBSecurity = MySQL("db security")
+
+    serviceDBUser = Service("service")
+    mysqlDBUser = MySQL("db user")
     
     serviceMemory = Service("service")
 
@@ -31,5 +34,6 @@ with Diagram("architecture diagram", show=False):
         
     ingress >> serviceBE >> podBE
     ingress >> serviceAPIContract >> podAPIContract
-    podBE >> serviceDB >> mongoDB
+    podBE >> serviceDBSecurity >> mysqlDBSecurity
+    podBE >> serviceDBUser >> mysqlDBUser
     podBE >> serviceMemory >> redis

@@ -1,5 +1,14 @@
-build:
-	sudo docker image build -t dealljobs .
+build-backend:
+	sudo docker image build -t muhammadrivaldy05/dealljobs .
+
+build-swagger:
+	sudo docker image build -t muhammadrivaldy05/swagger-ui -f Dockerfile.swagger-ui .
+
+push-image-backend:
+	sudo docker image push muhammadrivaldy05/dealljobs
+
+push-image-swagger:
+	sudo docker image push muhammadrivaldy05/swagger-ui
 
 remove-useless:
 	sudo docker image prune
