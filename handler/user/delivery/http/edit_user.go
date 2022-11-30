@@ -12,7 +12,7 @@ import (
 
 func (e *endpoint) EditUser(c *gin.Context) {
 
-	userID, err := strconv.ParseInt(c.Query("user_id"), 10, 64)
+	userID, err := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if err != nil {
 		goutil.ResponseError(c, http.StatusInternalServerError, err, nil)
 		return

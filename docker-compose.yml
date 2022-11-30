@@ -2,7 +2,7 @@ version: "3.3"
 services:
   mysql-security:
     container_name: mysql-security
-    image: mysql:8.0-debian
+    image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
@@ -17,7 +17,7 @@ services:
 
   mysql-user:
     container_name: mysql-user
-    image: mysql:8.0-debian
+    image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
@@ -82,6 +82,10 @@ services:
   swagger-ui:
     container_name: swagger-ui
     image: muhammadrivaldy05/swagger-ui:latest
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.swagger-ui
     ports:
       - 5051:8080
     environment:

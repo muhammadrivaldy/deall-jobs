@@ -5,7 +5,7 @@ import "time"
 type UserStatusID int
 
 const (
-	UserStatusIDNonActive UserStatusID = 0
+	UserStatusIDNonActive UserStatusID = -1
 	UserStatusIDActive    UserStatusID = 1
 )
 

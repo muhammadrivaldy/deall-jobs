@@ -39,7 +39,7 @@ func (u user) SelectUserByID(id int64) (res models.User, err error) {
 
 		result, _ = json.Marshal(res)
 
-		u.redis.Set(context.Background(), fmt.Sprintf("user-id:%d", id), result, 5*time.Minute)
+		u.redis.Set(context.Background(), fmt.Sprintf("user-id:%d", id), result, 10*time.Second)
 
 		return
 	}
